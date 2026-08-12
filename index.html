@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KRUTIK CYBER EXPERT — Photo Gallery</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0A0A0D;
+            color: #EFEFEC;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Hacker Background */
+        .hacker-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            background: #050506;
+        }
+        .matrix-rain {
+            position: absolute;
+            inset: 0;
+            opacity: 0.12;
+        }
+        .matrix-rain span {
+            position: absolute;
+            font-family: 'JetBrains Mono', monospace;
+            color: #C6FF3D;
+            animation: matrixFall linear infinite;
+            text-shadow: 0 0 15px rgba(198,255,61,0.3);
+            font-weight: 700;
+            font-size: 14px;
+        }
+        @keyframes matrixFall {
+            0% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh) scale(1.2); opacity: 0; }
+        }
+        .glitch-scan {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(198,255,61,0.015) 2px, rgba(198,255,61,0.015) 4px);
+            animation: scanMove 3s linear infinite;
+        }
+        @keyframes scanMove { 0% { transform: translateY(0); } 100% { transform: translateY(20px); } }
+        .holo-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(198,255,61,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(198,255,61,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridPulse 4s ease-in-out infinite;
+        }
+        @keyframes gridPulse { 0%,100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
+        .glitch-flash {
+            position: absolute;
+            inset: 0;
+            background: #C6FF3D;
+            opacity: 0;
+            animation: glitchFlash 4s infinite;
+        }
+        @keyframes glitchFlash { 0%,97%,100% { opacity: 0; } 98% { opacity: 0.04; } 99% { opacity: 0; } }
+
+        /* Main Content */
+        .app {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 20px 0;
+            border-bottom: 1px solid #242428;
+            margin-bottom: 30px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-mark {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #C6FF3D;
+            transform: rotate(45deg);
+            box-shadow: 0 0 30px rgba(198,255,61,0.3);
+            animation: logoPulse 2s ease-in-out infinite;
+        }
+        @keyframes logoPulse { 0%,100% { box-shadow: 0 0 30px rgba(198,255,61,0.3); } 50% { box-shadow: 0 0 60px rgba(198,255,61,0.5); } }
+        .logo h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 20px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #C6FF3D, #4CC9F0, #8C7CFF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .logo p {
+            font-size: 11px;
+            color: #8C8C93;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: #8C8C93;
+            text-decoration: none;
+            font-size: 13px;
+            padding: 8px 16px;
+            border: 1px solid #242428;
+            border-radius: 999px;
+            transition: all 0.3s;
+        }
+        .nav-links a:hover {
+            border-color: #C6FF3D;
+            color: #EFEFEC;
+            box-shadow: 0 0 20px rgba(198,255,61,0.1);
+        }
+        .nav-links a.active {
+            border-color: #C6FF3D;
+            color: #C6FF3D;
+            background: rgba(198,255,61,0.05);
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 30px 0 40px;
+        }
+        .hero .eyebrow {
+            font-family: 'Orbitron', monospace;
+            color: #C6FF3D;
+            font-size: 12px;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+        .hero h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 700;
+        }
+        .hero h2 span { color: #C6FF3D; }
+        .hero p {
+            color: #8C8C93;
+            font-size: 15px;
+            max-width: 500px;
+            margin: 10px auto 0;
+        }
+
+        /* Photo Grid */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .photo-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #242428;
+            background: #0A0A0D;
+            aspect-ratio: 1/1;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transform: translateZ(0);
+        }
+        .photo-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #C6FF3D;
+            box-shadow: 0 20px 60px rgba(198,255,61,0.08), 0 0 40px rgba(198,255,61,0.05);
+        }
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: 0.4s;
+        }
+        .photo-item:hover img {
+            transform: scale(1.05);
+        }
+        .photo-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px 18px;
+            background: linear-gradient(transparent, rgba(5,5,6,0.85));
+            transform: translateY(100%);
+            transition: 0.3s;
+        }
+        .photo-item:hover .overlay {
+            transform: translateY(0);
+        }
+        .photo-item .overlay .title {
+            font-family: 'Orbitron', monospace;
+            font-size: 12px;
+            color: #C6FF3D;
+            letter-spacing: 0.5px;
+        }
+        .photo-item .overlay .sub {
+            font-size: 11px;
+            color: #8C8C93;
+            margin-top: 2px;
+        }
+        .photo-item .photo-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #8C8C93;
+            font-size: 40px;
+            background: #0A0A0D;
+            gap: 10px;
+        }
+        .photo-item .photo-placeholder span {
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .stats .stat {
+            text-align: center;
+        }
+        .stats .stat b {
+            display: block;
+            font-family: 'Orbitron', monospace;
+            font-size: 28px;
+            color: #EFEFEC;
+        }
+        .stats .stat span {
+            font-size: 12px;
+            color: #8C8C93;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0 10px;
+            border-top: 1px solid #242428;
+            margin-top: 40px;
+            color: #4A4A50;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Empty State */
+        .empty {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        .empty .icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+        .empty h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 20px;
+            color: #EFEFEC;
+        }
+        .empty p {
+            color: #8C8C93;
+            margin-top: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 520px) {
+            header { flex-direction: column; align-items: flex-start; }
+            .nav-links { width: 100%; }
+            .photo-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+            .stats { gap: 20px; }
+            .stats .stat b { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HACKER BACKGROUND ===== -->
+    <div class="hacker-bg">
+        <div class="matrix-rain" id="matrixRain"></div>
+        <div class="glitch-scan"></div>
+        <div class="glitch-flash"></div>
+        <div class="holo-grid"></div>
+    </div>
+
+    <!-- ===== MAIN ===== -->
+    <div class="app">
+
+        <!-- HEADER -->
+        <header>
+            <div class="logo">
+                <div class="logo-mark"></div>
+                <div>
+                    <h1>KRUTIK CYBER</h1>
+                    <p>📸 PHOTO GALLERY</p>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="https://shree-khodal-shop.github.io/krutik-cyber-expert-PDF-web/">📄 PDFs</a>
+                <a href="#" class="active">📸 Photos</a>
+            </div>
+        </header>
+
+        <!-- HERO -->
+        <section class="hero">
+            <p class="eyebrow">📸 CAPTURE THE MOMENT</p>
+            <h2>Course <span>Gallery</span></h2>
+            <p>All photos from KRUTIK CYBER EXPERT courses — one place.</p>
+        </section>
+
+        <!-- STATS -->
+        <div class="stats">
+            <div class="stat"><b id="statTotal">0</b><span>Total Photos</span></div>
+        </div>
+
+        <!-- PHOTO GRID -->
+        <div id="photoGrid" class="photo-grid"></div>
+
+        <!-- EMPTY STATE -->
+        <div id="emptyState" class="empty" style="display:none;">
+            <div class="icon">📸</div>
+            <h3>No photos yet</h3>
+            <p>Check back soon — new photos are added regularly.</p>
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            KRUTIK CYBER EXPERT — Photo Gallery 🖼️
+        </footer>
+
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // ============================================================
+        // MATRIX RAIN
+        // ============================================================
+        (function() {
+            const container = document.getElementById('matrixRain');
+            const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+{}:<>?~';
+            for (let i = 0; i < 100; i++) {
+                const span = document.createElement('span');
+                span.textContent = chars[Math.floor(Math.random() * chars.length)];
+                span.style.left = Math.random() * 100 + '%';
+                span.style.animationDuration = (5 + Math.random() * 15) + 's';
+                span.style.animationDelay = (Math.random() * 15) + 's';
+                span.style.fontSize = (8 + Math.random() * 14) + 'px';
+                span.style.opacity = 0.15 + Math.random() * 0.5;
+                container.appendChild(span);
+            }
+        })();
+
+        // ============================================================
+        // PHOTO DATA
+        // ============================================================
+        let allPhotos = [];
+
+        function escapeHtml(s) {
+            const d = document.createElement('div');
+            d.textContent = s;
+            return d.innerHTML;
+        }
+
+        function renderPhotos() {
+            const grid = document.getElementById('photoGrid');
+            const empty = document.getElementById('emptyState');
+            grid.innerHTML = '';
+
+            if (allPhotos.length === 0) {
+                grid.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            empty.style.display = 'none';
+
+            allPhotos.forEach(photo => {
+                const item = document.createElement('div');
+                item.className = 'photo-item';
+                item.innerHTML = `
+                    <img src="${photo.url}" alt="${photo.title || 'Course photo'}" loading="lazy" />
+                    <div class="overlay">
+                        <div class="title">${escapeHtml(photo.title || '📷')}</div>
+                        <div class="sub">Click to view full size</div>
+                    </div>
+                `;
+                item.addEventListener('click', () => {
+                    window.open(photo.url, '_blank');
+                });
+                grid.appendChild(item);
+            });
+
+            document.getElementById('statTotal').textContent = allPhotos.length;
+        }
+
+        // ============================================================
+        // LOAD PHOTOS
+        // ============================================================
+        fetch('photos.json')
+            .then(r => r.json())
+            .then(data => {
+                allPhotos = Array.isArray(data) ? data : [];
+                renderPhotos();
+            })
+            .catch(() => {
+                // If photos.json not found, show empty state
+                allPhotos = [];
+                renderPhotos();
+            });
+    </script>
+
+</body>
+</html>
