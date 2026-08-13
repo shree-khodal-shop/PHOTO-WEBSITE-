@@ -5,5 +5,12 @@
     "category": "General",
     "filename": "photo1.jpg",
     "uploadDate": "2026-08-13"
+  },
+  {
+    "title": "smit chovatiya",
+    "description": "Short description",
+    "category": "General",
+    "filename": "photo2.jpg",
+    "uploadDate": "2026-08-13"
   }
 ]
