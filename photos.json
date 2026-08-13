@@ -1,1 +1,9 @@
-
+[
+  {
+    "title": "Photo Title",
+    "description": "Short description",
+    "category": "General",
+    "filename": "photo1.jpg",
+    "uploadDate": "2026-08-13"
+  }
+]
