@@ -184,8 +184,8 @@
 <main>
   <section class="hero">
     <p class="eyebrow mono">100% FREE · NO SIGN-UP REQUIRED</p>
-    <h2 class="display">SCAM PHOTOS,<br/>one click away.</h2>
-    <p>This is the KRUTIK CYBER EXPERT photo gallery — view online or download, free anytime.</p>
+    <h2 class="display">ALL PHOTOS,<br/>SCAM.</h2>
+    <p>This is the KRUTIK CYBER EXPERT photo scam — view online or download, free anytime.</p>
 
     <div class="social-links">
       <a href="https://www.instagram.com/hacker_by_expert?igsh=MTZ0NmxzaXBiNWFpZQ==" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
@@ -341,6 +341,9 @@
     catch(e){ return "—"; }
   }
   function escapeHtml(s){ const d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+  function photoSrc(p){
+    return p.filename.startsWith("http") ? p.filename : `photos/${encodeURIComponent(p.filename)}`;
+  }
 
   let allPhotos = [];
   let activeCategory = "All";
@@ -378,13 +381,13 @@
       card.innerHTML = `
         <div class="thumb-wrap" data-id="${p.id}">
           <span class="cat-badge" style="color:${tag}">${(p.category || "GENERAL").toUpperCase()}</span>
-          <img src="photos/${encodeURIComponent(p.filename)}" alt="${escapeHtml(p.title)}" loading="lazy" />
+          <img src="${photoSrc(p)}" alt="${escapeHtml(p.title)}" loading="lazy" />
         </div>
         <div class="card-body">
           <h3>${escapeHtml(p.title)}</h3>
           <div class="card-foot">
             <span class="meta mono">${formatDate(p.uploadDate)}</span>
-            <a class="dl-btn" href="photos/${encodeURIComponent(p.filename)}" download>⬇</a>
+            <a class="dl-btn" href="${photoSrc(p)}" download>⬇</a>
           </div>
         </div>`;
       card.querySelector(".thumb-wrap").addEventListener("click", () => openLightbox(p));
@@ -414,11 +417,11 @@
   }
 
   function openLightbox(p){
-    document.getElementById("lightboxImg").src = `photos/${encodeURIComponent(p.filename)}`;
+    document.getElementById("lightboxImg").src = photoSrc(p);
     document.getElementById("lightboxTitle").textContent = p.title;
     document.getElementById("lightboxDesc").textContent = p.description || "";
-    document.getElementById("lightboxDownload").href = `photos/${encodeURIComponent(p.filename)}`;
-    document.getElementById("lightboxDownload").setAttribute("download", p.filename);
+    document.getElementById("lightboxDownload").href = photoSrc(p);
+    document.getElementById("lightboxDownload").setAttribute("download", p.title.replace(/[^a-z0-9]+/gi, "-") + ".jpg");
     document.getElementById("lightbox").classList.add("open");
   }
   document.getElementById("lightboxClose").addEventListener("click", () => {
