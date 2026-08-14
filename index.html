@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>KRUTIK CYBER EXPERT — Free Photo Gallery</title>
+<title> HACKER CYBER EXPERT — Free Photo Gallery</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
@@ -158,6 +158,46 @@
     border-radius:50%; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;
   }
 
+  /* locked photo */
+  .thumb-wrap.locked img{filter:blur(18px) brightness(0.5); transform:scale(1.1);}
+  .lock-overlay{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:6px; background:rgba(5,5,6,0.35);
+  }
+  .lock-overlay .ic{font-size:22px;}
+  .lock-overlay span{font-size:10.5px; color:var(--paper); font-weight:600; letter-spacing:0.5px;
+    background:rgba(5,5,6,0.6); padding:3px 9px; border-radius:999px;}
+  .unlocked-badge{
+    position:absolute; top:8px; right:8px; background:rgba(5,5,6,0.75);
+    color:var(--lime); font-size:9.5px; padding:4px 7px; border-radius:999px; backdrop-filter:blur(4px);
+  }
+
+  /* password modal */
+  .pw-modal{
+    position:fixed; inset:0; z-index:60; background:rgba(3,3,4,0.85);
+    display:none; align-items:center; justify-content:center; padding:24px;
+    backdrop-filter:blur(6px);
+  }
+  .pw-modal.open{display:flex;}
+  .pw-box{
+    background:var(--void-deep); border:1px solid var(--line); border-radius:14px;
+    padding:24px; width:100%; max-width:320px; text-align:center;
+  }
+  .pw-box .ic{font-size:26px;}
+  .pw-box h3{font-family:'Space Grotesk',sans-serif; font-size:16px; margin:10px 0 4px; color:var(--paper);}
+  .pw-box p{color:var(--muted); font-size:12.5px; margin:0 0 16px;}
+  .pw-box input{
+    width:100%; background:rgba(5,5,6,0.7); border:1px solid var(--line); color:var(--paper);
+    padding:10px 14px; border-radius:8px; font-size:14px; text-align:center; box-sizing:border-box;
+  }
+  .pw-error{color:#FF6B5B; font-size:11.5px; margin-top:8px; min-height:14px;}
+  .pw-actions{display:flex; gap:8px; margin-top:14px;}
+  .pw-actions button{
+    flex:1; padding:9px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; border:none;
+  }
+  .pw-submit{background:var(--lime); color:var(--void);}
+  .pw-cancel{background:transparent; border:1px solid var(--line) !important; color:var(--muted);}
+
   @media (max-width:520px){ .stats{gap:20px;} }
 </style>
 </head>
@@ -173,7 +213,7 @@
     <div class="brand">
       <div class="logo-mark"></div>
       <div>
-        <h1 class="display"> HACKER </h1>
+        <h1 class="display">HACKER CYBER EXPERT</h1>
         <p class="mono" id="countLabel">0 Photos · Free Gallery</p>
       </div>
     </div>
@@ -183,14 +223,14 @@
 
 <main>
   <section class="hero">
-    <p class="eyebrow mono">100% FREE · </p>
-    <h2 class="display">ALL PHOTOS,<br/>SCAM.</h2>
-    <p>This is the  CYBER EXPERT photo scam — view online or download, free anytime.</p>
+    <p class="eyebrow mono"> · NO SIGN-UP REQUIRED</p>
+    <h2 class="display">SCAM PHOTOS,<br/>ONE CLICK TO DOWNLOAD.</h2>
+    <p>This is the  CYBER EXPERT photo gallery — view online or download, free anytime.</p>
 
-<div class="social-links">
-  <a href="https://t.me/HACKER_123K" target="_blank" rel="noopener noreferrer">📱 MY CONTACT</a>
-</div>
- 
+    <div class="social-links">
+     </a>
+      <a href="https://t.me/KRUTIK_CYBER_EXPERT" target="_blank" rel="noopener noreferrer">💬 Customer Support</a>
+    </div>
 
     <div class="stats">
       <div class="stat"><b id="statTotal">0</b><span>Total Photos</span></div>
@@ -213,7 +253,7 @@
 </main>
 
 <footer>
-  <span> CYBER EXPERT — all photos are free to view and download.</span>
+  <span> HACKER CYBER EXPERT — all photos are free to view and download.</span>
   <span class="mono">FREE · FOREVER</span>
 </footer>
 </div>
@@ -228,6 +268,20 @@
     </div>
     <div class="lightbox-actions">
       <a class="dl-btn" id="lightboxDownload" href="#" download>⬇ Download</a>
+    </div>
+  </div>
+</div>
+
+<div class="pw-modal" id="pwModal">
+  <div class="pw-box">
+    <div class="ic">🔒</div>
+    <h3 id="pwTitle">Protected Photo</h3>
+    <p>Enter the password to view this photo.</p>
+    <input type="password" id="pwInput" placeholder="Password" />
+    <p class="pw-error" id="pwError"></p>
+    <div class="pw-actions">
+      <button class="pw-cancel" id="pwCancel">Cancel</button>
+      <button class="pw-submit" id="pwSubmit">Unlock</button>
     </div>
   </div>
 </div>
@@ -347,6 +401,8 @@
 
   let allPhotos = [];
   let activeCategory = "All";
+  const unlockedIds = new Set();
+  let pendingPhoto = null;
 
   function render(){
     const query = document.getElementById("search").value.trim().toLowerCase();
@@ -376,21 +432,30 @@
 
     filtered.forEach(p => {
       const tag = tagColor(p.category);
+      const isLocked = !!p.password && !unlockedIds.has(p.id);
+      const isProtected = !!p.password;
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
-        <div class="thumb-wrap" data-id="${p.id}">
+        <div class="thumb-wrap ${isLocked ? 'locked' : ''}" data-id="${p.id}">
           <span class="cat-badge" style="color:${tag}">${(p.category || "GENERAL").toUpperCase()}</span>
+          ${isProtected && !isLocked ? `<span class="unlocked-badge">🔓 unlocked</span>` : ""}
           <img src="${photoSrc(p)}" alt="${escapeHtml(p.title)}" loading="lazy" />
+          ${isLocked ? `<div class="lock-overlay"><span class="ic">🔒</span><span>PASSWORD PROTECTED</span></div>` : ""}
         </div>
         <div class="card-body">
           <h3>${escapeHtml(p.title)}</h3>
           <div class="card-foot">
             <span class="meta mono">${formatDate(p.uploadDate)}</span>
-            <a class="dl-btn" href="${photoSrc(p)}" download>⬇</a>
+            ${isLocked
+              ? `<span class="dl-btn" style="opacity:0.6;">🔒</span>`
+              : `<a class="dl-btn" href="${photoSrc(p)}" download>⬇</a>`}
           </div>
         </div>`;
-      card.querySelector(".thumb-wrap").addEventListener("click", () => openLightbox(p));
+      card.querySelector(".thumb-wrap").addEventListener("click", () => {
+        if (isLocked) openPasswordModal(p);
+        else openLightbox(p);
+      });
       grid.appendChild(card);
     });
   }
@@ -404,53 +469,4 @@
       btn.className = "chip" + (c === activeCategory ? " active" : "");
       btn.textContent = c;
       btn.onclick = () => { activeCategory = c; renderFilters(); render(); };
-      box.appendChild(btn);
-    });
-  }
-
-  function renderMarquee(){
-    const cats = [...new Set(allPhotos.map(p => (p.category || "General").toUpperCase()))];
-    const items = cats.length ? cats : ["PHOTO GALLERY", "FREE DOWNLOADS", "CYBER SECURITY", "DESIGN"];
-    const loop = [...items, ...items];
-    document.getElementById("marqueeTrack").innerHTML =
-      loop.map(i => `<span class="marquee-item mono">${i} <span class="dot">◆</span></span>`).join("");
-  }
-
-  function openLightbox(p){
-    document.getElementById("lightboxImg").src = photoSrc(p);
-    document.getElementById("lightboxTitle").textContent = p.title;
-    document.getElementById("lightboxDesc").textContent = p.description || "";
-    document.getElementById("lightboxDownload").href = photoSrc(p);
-    document.getElementById("lightboxDownload").setAttribute("download", p.title.replace(/[^a-z0-9]+/gi, "-") + ".jpg");
-    document.getElementById("lightbox").classList.add("open");
-  }
-  document.getElementById("lightboxClose").addEventListener("click", () => {
-    document.getElementById("lightbox").classList.remove("open");
-  });
-  document.getElementById("lightbox").addEventListener("click", (e) => {
-    if (e.target.id === "lightbox") document.getElementById("lightbox").classList.remove("open");
-  });
-
-  document.getElementById("search").addEventListener("input", render);
-
-  fetch("photos.json?_=" + Date.now())
-    .then(r => r.json())
-    .then(data => {
-      allPhotos = (Array.isArray(data) ? data : []).map((p, i) => ({ id: i, ...p }));
-      allPhotos.sort((a,b) => new Date(b.uploadDate) - new Date(a.uploadDate));
-      document.getElementById("statTotal").textContent = allPhotos.length;
-      document.getElementById("statCats").textContent = new Set(allPhotos.map(p => p.category || "General")).size;
-      document.getElementById("countLabel").textContent = allPhotos.length + " Photos · Free Gallery";
-      renderFilters();
-      renderMarquee();
-      render();
-    })
-    .catch(() => {
-      document.getElementById("emptyTitle").textContent = "Couldn't load the gallery";
-      document.getElementById("emptyText").textContent = "photos.json not found or invalid.";
-      document.getElementById("emptyState").style.display = "block";
-      renderMarquee();
-    });
-</script>
-</body>
-</html>
+      
