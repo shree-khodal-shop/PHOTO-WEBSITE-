@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title> HACKER CYBER EXPERT — Free Photo Gallery</title>
+<title> HACKER CYBER EXPERT — Free Photo  SCAM</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
@@ -224,11 +224,10 @@
 <main>
   <section class="hero">
     <p class="eyebrow mono"> · NO SIGN-UP REQUIRED</p>
-    <h2 class="display"> every ,<br/>ONE CLICK TO DOWNLOAD.</h2>
-    <p>This is the  CYBER EXPERT photo gallery — view online or download, free anytime.</p>
+    <h2 class="display">SCAM PHOTOS,<br/>ONE CLICK TO DOWNLOAD.</h2>
+    <p>This is the CYBER EXPERT photo gallery — view online or download, free anytime.</p>
 
     <div class="social-links">
-     </a>
       <a href="https://t.me/KRUTIK_CYBER_EXPERT" target="_blank" rel="noopener noreferrer">💬 MY CONTACT</a>
     </div>
 
@@ -253,7 +252,7 @@
 </main>
 
 <footer>
-  <span> HACKER CYBER EXPERT — all photos are free to view and download.</span>
+  <span>HACKER CYBER EXPERT — all photos are free to view and download.</span>
   <span class="mono">FREE · FOREVER</span>
 </footer>
 </div>
@@ -469,4 +468,87 @@
       btn.className = "chip" + (c === activeCategory ? " active" : "");
       btn.textContent = c;
       btn.onclick = () => { activeCategory = c; renderFilters(); render(); };
-      
+      box.appendChild(btn);
+    });
+  }
+
+  function renderMarquee(){
+    const cats = [...new Set(allPhotos.map(p => (p.category || "General").toUpperCase()))];
+    const items = cats.length ? cats : ["PHOTO GALLERY", "FREE DOWNLOADS", "CYBER SECURITY", "DESIGN"];
+    const loop = [...items, ...items];
+    document.getElementById("marqueeTrack").innerHTML =
+      loop.map(i => `<span class="marquee-item mono">${i} <span class="dot">◆</span></span>`).join("");
+  }
+
+  function openLightbox(p){
+    document.getElementById("lightboxImg").src = photoSrc(p);
+    document.getElementById("lightboxTitle").textContent = p.title;
+    document.getElementById("lightboxDesc").textContent = p.description || "";
+    document.getElementById("lightboxDownload").href = photoSrc(p);
+    document.getElementById("lightboxDownload").setAttribute("download", p.title.replace(/[^a-z0-9]+/gi, "-") + ".jpg");
+    document.getElementById("lightbox").classList.add("open");
+  }
+  document.getElementById("lightboxClose").addEventListener("click", () => {
+    document.getElementById("lightbox").classList.remove("open");
+  });
+  document.getElementById("lightbox").addEventListener("click", (e) => {
+    if (e.target.id === "lightbox") document.getElementById("lightbox").classList.remove("open");
+  });
+
+  function openPasswordModal(p){
+    pendingPhoto = p;
+    document.getElementById("pwTitle").textContent = p.title;
+    document.getElementById("pwInput").value = "";
+    document.getElementById("pwError").textContent = "";
+    document.getElementById("pwModal").classList.add("open");
+    setTimeout(() => document.getElementById("pwInput").focus(), 50);
+  }
+  function closePasswordModal(){
+    document.getElementById("pwModal").classList.remove("open");
+    pendingPhoto = null;
+  }
+  function tryUnlock(){
+    if (!pendingPhoto) return;
+    const entered = document.getElementById("pwInput").value;
+    if (entered === pendingPhoto.password){
+      unlockedIds.add(pendingPhoto.id);
+      const unlocked = pendingPhoto;
+      closePasswordModal();
+      render();
+      openLightbox(unlocked);
+    } else {
+      document.getElementById("pwError").textContent = "Incorrect password, try again.";
+    }
+  }
+  document.getElementById("pwSubmit").addEventListener("click", tryUnlock);
+  document.getElementById("pwCancel").addEventListener("click", closePasswordModal);
+  document.getElementById("pwInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") tryUnlock();
+  });
+  document.getElementById("pwModal").addEventListener("click", (e) => {
+    if (e.target.id === "pwModal") closePasswordModal();
+  });
+
+  document.getElementById("search").addEventListener("input", render);
+
+  fetch("photos.json?_=" + Date.now())
+    .then(r => r.json())
+    .then(data => {
+      allPhotos = Array.isArray(data) ? data : [];
+      allPhotos.sort((a,b) => new Date(b.uploadDate) - new Date(a.uploadDate));
+      document.getElementById("statTotal").textContent = allPhotos.length;
+      document.getElementById("statCats").textContent = new Set(allPhotos.map(p => p.category || "General")).size;
+      document.getElementById("countLabel").textContent = allPhotos.length + " Photos · Free Gallery";
+      renderFilters();
+      renderMarquee();
+      render();
+    })
+    .catch(() => {
+      document.getElementById("emptyTitle").textContent = "Couldn't load the gallery";
+      document.getElementById("emptyText").textContent = "photos.json not found or invalid.";
+      document.getElementById("emptyState").style.display = "block";
+      renderMarquee();
+    });
+</script>
+</body>
+</html>
