@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title> HACKER CYBER EXPERT — Free Photo  SCAM</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title> HACKER CYBER EXPERT — Free Photo Gallery</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
@@ -139,23 +139,113 @@
     display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
   }
 
-  /* lightbox */
+  /* ===== LIGHTBOX ===== */
   .lightbox{
     position:fixed; inset:0; z-index:50; background:rgba(3,3,4,0.94);
     display:none; align-items:center; justify-content:center; padding:24px;
     backdrop-filter:blur(6px);
+    overflow:hidden;
   }
   .lightbox.open{display:flex;}
-  .lightbox img{max-width:100%; max-height:75vh; border-radius:10px; border:1px solid var(--line);}
-  .lightbox-panel{display:flex; flex-direction:column; align-items:center; gap:14px; max-width:90vw;}
-  .lightbox-info{text-align:center;}
-  .lightbox-info h3{font-family:'Space Grotesk',sans-serif; font-size:17px; margin:0 0 4px;}
+
+  .lightbox-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    cursor:default;
+  }
+
+  .lightbox-inner img{
+    max-width:95vw;
+    max-height:85vh;
+    border-radius:10px;
+    border:1px solid var(--line);
+    transform-origin:center center;
+    user-select:none;
+    -webkit-user-drag:none;
+    pointer-events:none;
+    object-fit:contain;
+  }
+
+  .lightbox-info{
+    position:absolute;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%);
+    text-align:center;
+    background:rgba(5,5,6,0.7);
+    padding:12px 24px;
+    border-radius:12px;
+    backdrop-filter:blur(6px);
+    border:1px solid var(--line);
+    max-width:80%;
+    pointer-events:none;
+  }
+  .lightbox-info h3{font-family:'Space Grotesk',sans-serif; font-size:17px; margin:0 0 4px; color:var(--paper);}
   .lightbox-info p{color:var(--muted); font-size:12.5px; margin:0;}
-  .lightbox-actions{display:flex; gap:10px; margin-top:6px;}
+
   .lightbox-close{
-    position:absolute; top:18px; right:18px; background:rgba(5,5,6,0.7);
+    position:absolute; top:18px; right:18px; z-index:55;
+    background:rgba(5,5,6,0.7);
     border:1px solid var(--line); color:var(--paper); width:38px; height:38px;
     border-radius:50%; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:background .15s;
+  }
+  .lightbox-close:hover{background:rgba(255,107,107,0.3); border-color:#ff6b6b;}
+
+  /* ===== ZOOM & PAN CONTROLS ===== */
+  .controls{
+    position:absolute;
+    bottom:100px;
+    right:20px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    z-index:55;
+  }
+  .controls .row{
+    display:flex;
+    gap:6px;
+    justify-content:center;
+  }
+  .controls button{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(5,5,6,0.8);
+    color:var(--paper);
+    font-size:18px;
+    cursor:pointer;
+    backdrop-filter:blur(6px);
+    transition:background .15s, border-color .15s, transform .1s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    user-select:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .controls button:active{
+    transform:scale(0.92);
+    background:var(--lime);
+    border-color:var(--lime);
+    color:var(--void);
+  }
+  .controls button:hover{
+    background:var(--lime);
+    border-color:var(--lime);
+    color:var(--void);
+  }
+  .controls .zoom-label{
+    color:var(--muted);
+    font-size:11px;
+    text-align:center;
+    font-family:'JetBrains Mono',monospace;
+    padding:2px 0;
   }
 
   /* locked photo */
@@ -198,7 +288,12 @@
   .pw-submit{background:var(--lime); color:var(--void);}
   .pw-cancel{background:transparent; border:1px solid var(--line) !important; color:var(--muted);}
 
-  @media (max-width:520px){ .stats{gap:20px;} }
+  @media (max-width:520px){ .stats{gap:20px;}
+    .lightbox-info{bottom:15px; padding:10px 16px;}
+    .lightbox-info h3{font-size:14px;}
+    .controls{bottom:80px; right:10px;}
+    .controls button{width:38px;height:38px;font-size:15px;}
+  }
 </style>
 </head>
 <body>
@@ -224,12 +319,12 @@
 <main>
   <section class="hero">
     <p class="eyebrow mono"> · NO SIGN-UP REQUIRED</p>
-    <h2 class="display">SCAM PHOTOS,<br/>ONE CLICK TO DOWNLOAD.</h2>
-    <p>This is the CYBER EXPERT scam photos .</p>
+    <h2 class="display">SCAM PHOTOS,<br/>ONE CLICK TO VIEW.</h2>
+    <p>This is the CYBER EXPERT free scam photos — view online, free anytime.</p>
 
-<div class="social-links">
-  <a href="https://t.me/HACKER_123K" target="_blank" rel="noopener noreferrer">💬 PASSWORD 🔑 MY CONTACT</a>
-</div>
+    <div class="social-links">
+      <a href="https://t.me/HACKER_123K" target="_blank" rel="noopener noreferrer">💬 CONTACT ME FOR THE PASSWORD. 🔑</a>
+    </div>
 
     <div class="stats">
       <div class="stat"><b id="statTotal">0</b><span>Total Photos</span></div>
@@ -252,21 +347,39 @@
 </main>
 
 <footer>
-  <span>HACKER CYBER EXPERT — all photos are free to view and download.</span>
+  <span>HACKER CYBER EXPERT — all photos are free to view.</span>
   <span class="mono">FREE · FOREVER</span>
 </footer>
 </div>
 
+<!-- ===== LIGHTBOX ===== -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose">✕</button>
-  <div class="lightbox-panel">
+
+  <div class="lightbox-inner" id="lightboxInner">
     <img id="lightboxImg" src="" alt="" />
-    <div class="lightbox-info">
-      <h3 id="lightboxTitle"></h3>
-      <p id="lightboxDesc"></p>
+  </div>
+
+  <div class="lightbox-info">
+    <h3 id="lightboxTitle"></h3>
+    <p id="lightboxDesc"></p>
+  </div>
+
+  <!-- ===== CONTROLS ===== -->
+  <div class="controls">
+    <div class="row">
+      <button id="zoomIn" title="Zoom In">➕</button>
+      <button id="zoomReset" title="Reset">⟲</button>
+      <button id="zoomOut" title="Zoom Out">➖</button>
     </div>
-    <div class="lightbox-actions">
-      <a class="dl-btn" id="lightboxDownload" href="#" download>⬇ Download</a>
+    <div class="zoom-label" id="zoomLevel">100%</div>
+    <div class="row">
+      <button id="panUp" title="Pan Up">⬆</button>
+    </div>
+    <div class="row">
+      <button id="panLeft" title="Pan Left">⬅</button>
+      <button id="panDown" title="Pan Down">⬇</button>
+      <button id="panRight" title="Pan Right">➡</button>
     </div>
   </div>
 </div>
@@ -403,44 +516,254 @@
   const unlockedIds = new Set();
   let pendingPhoto = null;
 
+  /* ===== STABLE ZOOM LOGIC ===== */
+  let currentZoom = 1;
+  const MIN_ZOOM = 0.5;
+  const MAX_ZOOM = 15;
+  let translateX = 0, translateY = 0;
+  let isPinching = false;
+
+  let touchStartDistance = 0;
+  let touchStartZoom = 1;
+  let touchStartX = 0, touchStartY = 0;
+  let touchLastTranslateX = 0, touchLastTranslateY = 0;
+  let lastTap = 0;
+
+  let imgWidth = 0, imgHeight = 0;
+  let containerWidth = 0, containerHeight = 0;
+
+  function updateZoom(){
+    const img = document.getElementById('lightboxImg');
+    img.style.transition = 'none';
+    img.style.transform = `scale(${currentZoom}) translate(${translateX}px, ${translateY}px)`;
+    document.getElementById('zoomLevel').textContent = Math.round(currentZoom * 100) + '%';
+  }
+
+  function clampPan(){
+    const img = document.getElementById('lightboxImg');
+    const container = document.getElementById('lightboxInner');
+    
+    if (!img.complete || !img.naturalWidth) return;
+    
+    imgWidth = img.naturalWidth;
+    imgHeight = img.naturalHeight;
+    containerWidth = container.clientWidth;
+    containerHeight = container.clientHeight;
+    
+    const scaledWidth = imgWidth * currentZoom;
+    const scaledHeight = imgHeight * currentZoom;
+    
+    const maxX = Math.max(0, (scaledWidth - containerWidth) / 2);
+    const maxY = Math.max(0, (scaledHeight - containerHeight) / 2);
+    
+    translateX = Math.min(Math.max(translateX, -maxX), maxX);
+    translateY = Math.min(Math.max(translateY, -maxY), maxY);
+  }
+
+  function resetZoom(){
+    currentZoom = 1;
+    translateX = 0;
+    translateY = 0;
+    updateZoom();
+  }
+
+  function zoomIn(){
+    if (currentZoom < MAX_ZOOM) {
+      currentZoom = Math.min(currentZoom + 0.50, MAX_ZOOM);
+      clampPan();
+      updateZoom();
+    }
+  }
+
+  function zoomOut(){
+    if (currentZoom > MIN_ZOOM) {
+      currentZoom = Math.max(currentZoom - 0.15, MIN_ZOOM);
+      if (currentZoom === 1) {
+        translateX = 0;
+        translateY = 0;
+      }
+      clampPan();
+      updateZoom();
+    }
+  }
+
+  function panUp(){
+    translateY += 30;
+    clampPan();
+    updateZoom();
+  }
+  function panDown(){
+    translateY -= 30;
+    clampPan();
+    updateZoom();
+  }
+  function panLeft(){
+    translateX += 30;
+    clampPan();
+    updateZoom();
+  }
+  function panRight(){
+    translateX -= 30;
+    clampPan();
+    updateZoom();
+  }
+
+  /* ===== LIGHTBOX FUNCTIONS ===== */
+  function openLightbox(p){
+    const img = document.getElementById('lightboxImg');
+    img.src = photoSrc(p);
+    document.getElementById('lightboxTitle').textContent = p.title;
+    document.getElementById('lightboxDesc').textContent = p.description || '';
+    document.getElementById('lightbox').classList.add('open');
+    
+    img.onload = function() {
+      resetZoom();
+      clampPan();
+    };
+    resetZoom();
+  }
+
+  document.getElementById('lightboxClose').addEventListener('click', () => {
+    document.getElementById('lightbox').classList.remove('open');
+    resetZoom();
+  });
+
+  document.getElementById('lightbox').addEventListener('click', (e) => {
+    if (e.target.id === 'lightbox') {
+      document.getElementById('lightbox').classList.remove('open');
+      resetZoom();
+    }
+  });
+
+  /* ===== BUTTON CONTROLS ===== */
+  document.getElementById('zoomIn').addEventListener('click', zoomIn);
+  document.getElementById('zoomOut').addEventListener('click', zoomOut);
+  document.getElementById('zoomReset').addEventListener('click', resetZoom);
+  document.getElementById('panUp').addEventListener('click', panUp);
+  document.getElementById('panDown').addEventListener('click', panDown);
+  document.getElementById('panLeft').addEventListener('click', panLeft);
+  document.getElementById('panRight').addEventListener('click', panRight);
+
+  /* ===== KEYBOARD CONTROLS ===== */
+  document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    switch(e.key) {
+      case '+': zoomIn(); e.preventDefault(); break;
+      case '-': zoomOut(); e.preventDefault(); break;
+      case '0': resetZoom(); e.preventDefault(); break;
+      case 'ArrowUp': panUp(); e.preventDefault(); break;
+      case 'ArrowDown': panDown(); e.preventDefault(); break;
+      case 'ArrowLeft': panLeft(); e.preventDefault(); break;
+      case 'ArrowRight': panRight(); e.preventDefault(); break;
+    }
+  });
+
+  /* ===== TOUCH EVENTS ===== */
+  const inner = document.getElementById('lightboxInner');
+
+  inner.addEventListener('touchstart', (e) => {
+    const touches = e.touches;
+
+    if (touches.length === 1) {
+      touchStartX = touches[0].clientX;
+      touchStartY = touches[0].clientY;
+      touchLastTranslateX = translateX;
+      touchLastTranslateY = translateY;
+    } else if (touches.length === 2) {
+      isPinching = true;
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+      touchStartDistance = Math.sqrt(dx*dx + dy*dy);
+      touchStartZoom = currentZoom;
+    }
+  }, { passive: true });
+
+  inner.addEventListener('touchmove', (e) => {
+    const touches = e.touches;
+    e.preventDefault();
+
+    if (touches.length === 1 && currentZoom > 1) {
+      const dx = touches[0].clientX - touchStartX;
+      const dy = touches[0].clientY - touchStartY;
+      translateX = touchLastTranslateX + dx;
+      translateY = touchLastTranslateY + dy;
+      clampPan();
+      updateZoom();
+    } else if (touches.length === 2 && isPinching) {
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+      const distance = Math.sqrt(dx*dx + dy*dy);
+      
+      const scale = distance / touchStartDistance;
+      let newZoom = touchStartZoom * scale;
+      newZoom = Math.min(Math.max(newZoom, MIN_ZOOM), MAX_ZOOM);
+      currentZoom = newZoom;
+      clampPan();
+      updateZoom();
+    }
+  }, { passive: false });
+
+  inner.addEventListener('touchend', (e) => {
+    isPinching = false;
+    const now = Date.now();
+    if (now - lastTap < 300 && e.changedTouches.length === 1) {
+      if (currentZoom > 1.5) {
+        resetZoom();
+      } else {
+        currentZoom = 2.5;
+        clampPan();
+        updateZoom();
+      }
+    }
+    lastTap = now;
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    if (document.getElementById('lightbox').classList.contains('open')) {
+      clampPan();
+      updateZoom();
+    }
+  });
+
+  /* ===== REST OF GALLERY LOGIC ===== */
   function render(){
-    const query = document.getElementById("search").value.trim().toLowerCase();
-    const grid = document.getElementById("grid");
-    const empty = document.getElementById("emptyState");
+    const query = document.getElementById('search').value.trim().toLowerCase();
+    const grid = document.getElementById('grid');
+    const empty = document.getElementById('emptyState');
 
     const filtered = allPhotos.filter(p => {
       const matchesQuery = !query ||
         p.title.toLowerCase().includes(query) ||
-        (p.description || "").toLowerCase().includes(query);
-      const matchesCat = activeCategory === "All" || (p.category || "General") === activeCategory;
+        (p.description || '').toLowerCase().includes(query);
+      const matchesCat = activeCategory === 'All' || (p.category || 'General') === activeCategory;
       return matchesQuery && matchesCat;
     });
 
-    grid.innerHTML = "";
+    grid.innerHTML = '';
     if (filtered.length === 0){
-      grid.style.display = "none";
-      empty.style.display = "block";
-      document.getElementById("emptyTitle").textContent = allPhotos.length === 0 ? "No photos yet" : "No results found";
-      document.getElementById("emptyText").textContent = allPhotos.length === 0
-        ? "Check back soon — new photos are added regularly."
-        : "Try a different search or filter.";
+      grid.style.display = 'none';
+      empty.style.display = 'block';
+      document.getElementById('emptyTitle').textContent = allPhotos.length === 0 ? 'No photos yet' : 'No results found';
+      document.getElementById('emptyText').textContent = allPhotos.length === 0
+        ? 'Check back soon — new photos are added regularly.'
+        : 'Try a different search or filter.';
       return;
     }
-    grid.style.display = "grid";
-    empty.style.display = "none";
+    grid.style.display = 'grid';
+    empty.style.display = 'none';
 
     filtered.forEach(p => {
       const tag = tagColor(p.category);
       const isLocked = !!p.password && !unlockedIds.has(p.id);
       const isProtected = !!p.password;
-      const card = document.createElement("div");
-      card.className = "card";
+      const card = document.createElement('div');
+      card.className = 'card';
       card.innerHTML = `
         <div class="thumb-wrap ${isLocked ? 'locked' : ''}" data-id="${p.id}">
-          <span class="cat-badge" style="color:${tag}">${(p.category || "GENERAL").toUpperCase()}</span>
-          ${isProtected && !isLocked ? `<span class="unlocked-badge">🔓 unlocked</span>` : ""}
+          <span class="cat-badge" style="color:${tag}">${(p.category || 'GENERAL').toUpperCase()}</span>
+          ${isProtected && !isLocked ? `<span class="unlocked-badge">🔓 unlocked</span>` : ''}
           <img src="${photoSrc(p)}" alt="${escapeHtml(p.title)}" loading="lazy" />
-          ${isLocked ? `<div class="lock-overlay"><span class="ic">🔒</span><span>PASSWORD PROTECTED</span></div>` : ""}
+          ${isLocked ? `<div class="lock-overlay"><span class="ic">🔒</span><span>PASSWORD PROTECTED</span></div>` : ''}
         </div>
         <div class="card-body">
           <h3>${escapeHtml(p.title)}</h3>
@@ -448,10 +771,10 @@
             <span class="meta mono">${formatDate(p.uploadDate)}</span>
             ${isLocked
               ? `<span class="dl-btn" style="opacity:0.6;">🔒</span>`
-              : `<a class="dl-btn" href="${photoSrc(p)}" download>⬇</a>`}
+              : `<span class="dl-btn" style="opacity:0.5; background:#444; cursor:default;">👁️</span>`}
           </div>
         </div>`;
-      card.querySelector(".thumb-wrap").addEventListener("click", () => {
+      card.querySelector('.thumb-wrap').addEventListener('click', () => {
         if (isLocked) openPasswordModal(p);
         else openLightbox(p);
       });
@@ -460,12 +783,12 @@
   }
 
   function renderFilters(){
-    const cats = ["All", ...new Set(allPhotos.map(p => p.category || "General"))];
-    const box = document.getElementById("filters");
-    box.innerHTML = "";
+    const cats = ['All', ...new Set(allPhotos.map(p => p.category || 'General'))];
+    const box = document.getElementById('filters');
+    box.innerHTML = '';
     cats.forEach(c => {
-      const btn = document.createElement("button");
-      btn.className = "chip" + (c === activeCategory ? " active" : "");
+      const btn = document.createElement('button');
+      btn.className = 'chip' + (c === activeCategory ? ' active' : '');
       btn.textContent = c;
       btn.onclick = () => { activeCategory = c; renderFilters(); render(); };
       box.appendChild(btn);
@@ -473,43 +796,30 @@
   }
 
   function renderMarquee(){
-    const cats = [...new Set(allPhotos.map(p => (p.category || "General").toUpperCase()))];
-    const items = cats.length ? cats : ["PHOTO GALLERY", "FREE DOWNLOADS", "CYBER SECURITY", "DESIGN"];
+    const cats = [...new Set(allPhotos.map(p => (p.category || 'General').toUpperCase()))];
+    const items = cats.length ? cats : ['PHOTO GALLERY', 'FREE VIEWING', 'CYBER SECURITY', 'DESIGN'];
     const loop = [...items, ...items];
-    document.getElementById("marqueeTrack").innerHTML =
-      loop.map(i => `<span class="marquee-item mono">${i} <span class="dot">◆</span></span>`).join("");
+    document.getElementById('marqueeTrack').innerHTML =
+      loop.map(i => `<span class="marquee-item mono">${i} <span class="dot">◆</span></span>`).join('');
   }
-
-  function openLightbox(p){
-    document.getElementById("lightboxImg").src = photoSrc(p);
-    document.getElementById("lightboxTitle").textContent = p.title;
-    document.getElementById("lightboxDesc").textContent = p.description || "";
-    document.getElementById("lightboxDownload").href = photoSrc(p);
-    document.getElementById("lightboxDownload").setAttribute("download", p.title.replace(/[^a-z0-9]+/gi, "-") + ".jpg");
-    document.getElementById("lightbox").classList.add("open");
-  }
-  document.getElementById("lightboxClose").addEventListener("click", () => {
-    document.getElementById("lightbox").classList.remove("open");
-  });
-  document.getElementById("lightbox").addEventListener("click", (e) => {
-    if (e.target.id === "lightbox") document.getElementById("lightbox").classList.remove("open");
-  });
 
   function openPasswordModal(p){
     pendingPhoto = p;
-    document.getElementById("pwTitle").textContent = p.title;
-    document.getElementById("pwInput").value = "";
-    document.getElementById("pwError").textContent = "";
-    document.getElementById("pwModal").classList.add("open");
-    setTimeout(() => document.getElementById("pwInput").focus(), 50);
+    document.getElementById('pwTitle').textContent = p.title;
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwError').textContent = '';
+    document.getElementById('pwModal').classList.add('open');
+    setTimeout(() => document.getElementById('pwInput').focus(), 50);
   }
+
   function closePasswordModal(){
-    document.getElementById("pwModal").classList.remove("open");
+    document.getElementById('pwModal').classList.remove('open');
     pendingPhoto = null;
   }
+
   function tryUnlock(){
     if (!pendingPhoto) return;
-    const entered = document.getElementById("pwInput").value;
+    const entered = document.getElementById('pwInput').value;
     if (entered === pendingPhoto.password){
       unlockedIds.add(pendingPhoto.id);
       const unlocked = pendingPhoto;
@@ -517,36 +827,37 @@
       render();
       openLightbox(unlocked);
     } else {
-      document.getElementById("pwError").textContent = "Incorrect password, try again.";
+      document.getElementById('pwError').textContent = 'Incorrect password, try again.';
     }
   }
-  document.getElementById("pwSubmit").addEventListener("click", tryUnlock);
-  document.getElementById("pwCancel").addEventListener("click", closePasswordModal);
-  document.getElementById("pwInput").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") tryUnlock();
+
+  document.getElementById('pwSubmit').addEventListener('click', tryUnlock);
+  document.getElementById('pwCancel').addEventListener('click', closePasswordModal);
+  document.getElementById('pwInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') tryUnlock();
   });
-  document.getElementById("pwModal").addEventListener("click", (e) => {
-    if (e.target.id === "pwModal") closePasswordModal();
+  document.getElementById('pwModal').addEventListener('click', (e) => {
+    if (e.target.id === 'pwModal') closePasswordModal();
   });
 
-  document.getElementById("search").addEventListener("input", render);
+  document.getElementById('search').addEventListener('input', render);
 
-  fetch("photos.json?_=" + Date.now())
+  fetch('photos.json?_=' + Date.now())
     .then(r => r.json())
     .then(data => {
       allPhotos = Array.isArray(data) ? data : [];
       allPhotos.sort((a,b) => new Date(b.uploadDate) - new Date(a.uploadDate));
-      document.getElementById("statTotal").textContent = allPhotos.length;
-      document.getElementById("statCats").textContent = new Set(allPhotos.map(p => p.category || "General")).size;
-      document.getElementById("countLabel").textContent = allPhotos.length + " Photos · Free Gallery";
+      document.getElementById('statTotal').textContent = allPhotos.length;
+      document.getElementById('statCats').textContent = new Set(allPhotos.map(p => p.category || 'General')).size;
+      document.getElementById('countLabel').textContent = allPhotos.length + ' Photos · Free Gallery';
       renderFilters();
       renderMarquee();
       render();
     })
     .catch(() => {
-      document.getElementById("emptyTitle").textContent = "Couldn't load the gallery";
-      document.getElementById("emptyText").textContent = "photos.json not found or invalid.";
-      document.getElementById("emptyState").style.display = "block";
+      document.getElementById('emptyTitle').textContent = "Couldn't load the gallery";
+      document.getElementById('emptyText').textContent = 'photos.json not found or invalid.';
+      document.getElementById('emptyState').style.display = 'block';
       renderMarquee();
     });
 </script>
